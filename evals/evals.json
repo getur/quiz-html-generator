@@ -1,0 +1,26 @@
+{
+  "skill_name": "quiz-html-generator",
+  "evals": [
+    {
+      "id": 1,
+      "name": "JSON to HTML quiz generation",
+      "prompt": "I have a quiz about climate change in this JSON file. Please generate an interactive HTML quiz from it. Save it in the current directory with the quiz name.\n\nFile: C:\\Users\\getur\\OneDrive\\Documents\\UNICEF\\MAZA\\Climate change\\climate-data.json\n\n--- contents of climate-data.json:\n{\n  \"title\": \"Climate Change Basics\",\n  \"questions\": [\n    {\n      \"question\": \"Which gas is the largest contributor to the greenhouse effect?\",\n      \"cards\": [\n        { \"title\": \"Carbon Dioxide (CO₂)\", \"explanation\": \"CO₂ is the most abundant long-lived greenhouse gas\", \"isCorrect\": true },\n        { \"title\": \"Methane (CH₄)\", \"explanation\": \"Methane is more potent but less abundant than CO₂\", \"isCorrect\": false },\n        { \"title\": \"Nitrous Oxide (N₂O)\", \"explanation\": \"N₂O is a greenhouse gas but not the largest contributor\", \"isCorrect\": false }\n      ]\n    },\n    {\n      \"question\": \"What is the main source of renewable energy worldwide?\",\n      \"cards\": [\n        { \"title\": \"Hydropower\", \"explanation\": \"Hydropower accounts for the largest share of renewable energy globally\", \"isCorrect\": true },\n        { \"title\": \"Solar\", \"explanation\": \"Solar is growing fast but hydropower still leads\", \"isCorrect\": false },\n        { \"title\": \"Wind\", \"explanation\": \"Wind energy is significant but not the largest\", \"isCorrect\": false },\n        { \"title\": \"Geothermal\", \"explanation\": \"Geothermal is minor compared to hydropower\", \"isCorrect\": false }\n      ]\n    }\n  ]\n}",
+      "expected_output": "An HTML file named climate-change-basics.html in the current directory containing an interactive quiz with 2 questions, 3-4 cards each, with splash screen, progress bar, flip-cards, and result screen.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "name": "Markdown to HTML quiz generation",
+      "prompt": "I have this markdown quiz about sexual health. Generate an interactive HTML quiz from it and save it in the current folder.\n\n```markdown\n# Sexual Health Quiz\n\n## What is the most effective form of contraception?\n- **Condom**: 98% effective when used correctly [correct]\n- **Withdrawal method**: 78% effective\n- **Calendar method**: 76% effective\n\n## What does STI stand for?\n- **Sexually Transmitted Infection**: An infection passed through sexual contact [correct]\n- **Standard Treatment Index**: A medical scoring system\n- **Systemic Transmission Issue**: A blood-borne condition\n```",
+      "expected_output": "An HTML file named sexual-health-quiz.html in the current directory containing an interactive quiz with 2 questions, 3 cards each. No images or audio (none in source).",
+      "files": []
+    },
+    {
+      "id": 3,
+      "name": "Excel CSV to HTML quiz generation",
+      "prompt": "I have a CSV file with quiz data about geography. Generate an interactive HTML quiz and name it after the file.\n\nFile: C:\\Users\\getur\\Downloads\\world-capitals.csv\n\n--- contents of world-capitals.csv:\nquestion,card_title,card_explanation,is_correct\n\"What is the capital of France?\",\"Paris\",\"Paris is the capital and largest city of France\",yes\n\"What is the capital of France?\",\"London\",\"London is the capital of the UK, not France\",no\n\"What is the capital of France?\",\"Berlin\",\"Berlin is the capital of Germany\",no\n\"What is the largest ocean?\",\"Pacific Ocean\",\"The Pacific is the largest ocean on Earth\",yes\n\"What is the largest ocean?\",\"Atlantic Ocean\",\"The Atlantic is the second largest ocean\",no\n\"What is the largest ocean?\",\"Indian Ocean\",\"The Indian Ocean is the third largest ocean\",no",
+      "expected_output": "An HTML file named world-capitals.html in the current directory with 2 questions (grouped by question text), 3 cards each, correct answers marked.",
+      "files": []
+    }
+  ]
+}
