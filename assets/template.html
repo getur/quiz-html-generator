@@ -1470,7 +1470,7 @@ function renderMCQ(area, q) {
 function submitMCQ(q, grid, getSelected) {
   if (answered) return;
   const cardId = getSelected();
-  if (!cardId) return;
+  if (!cardId) { showInstructions(); return; }
   answered = true;
 
   const cards = grid.querySelectorAll('.answer-card');
@@ -1575,7 +1575,7 @@ function renderFlashcard(area, q) {
 
 function submitFlashcard(q, grid, selectedId) {
   if (answered) return;
-  if (!selectedId.current) return;
+  if (!selectedId.current) { showInstructions(); return; }
   answered = true;
   vibrate(10);
 
@@ -1642,7 +1642,7 @@ function renderMultiSelect(area, q) {
 
 function submitMultiSelect(q) {
   if (answered) return;
-  if (msSelected.length === 0) return;
+  if (msSelected.length === 0) { showInstructions(); return; }
   answered = true;
   vibrate(10);
 
@@ -1731,7 +1731,7 @@ function renderTrueFalse(area, q) {
 function submitTF(q, getValue) {
   if (answered) return;
   const value = getValue();
-  if (value === null) return;
+  if (value === null) { showInstructions(); return; }
   answered = true;
 
   const areas = document.getElementById('answer-area');
@@ -1885,7 +1885,7 @@ function submitFillBlank(q, container) {
     }
   });
 
-  if (!allFilled) return;
+  if (!allFilled) { showInstructions(); return; }
   answered = true;
 
   const isCorrect = anyCorrect && !anyNearMiss;
@@ -2217,7 +2217,7 @@ function submitNumeric(q, input, wrap) {
   if (answered) return;
   vibrate(10);
   const val = parseFloat(input.value.replace(/[,\s]/g, ''));
-  if (isNaN(val)) return;
+  if (isNaN(val)) { showInstructions(); return; }
   answered = true;
 
   const diff = Math.abs(val - q.answer);
@@ -2320,6 +2320,7 @@ function handleAnswer(q, isCorrect) {
   document.querySelectorAll('#answer-area .btn-primary').forEach(btn => btn.style.display = 'none');
   document.getElementById('btn-next').classList.add('show');
   playAnswerAudio();
+  setTimeout(() => window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' }), 100);
 }
 
 /* ===========================================================
