@@ -37,27 +37,68 @@ The template supports **8 question types** via the `type` field:
 | Numeric           | `numeric`         | Enter a number with tolerance and unit; near-miss feedback |
 | Flash Card        | `flashcard`       | Flip cards to reveal answer, then select one |
 
-## CRITICAL: How to Generate the HTML
+## CRITICAL: How to Generate the HTML — Optimized Reading Strategy
 
-**DO NOT redesign or create a new HTML from scratch.** Follow these steps exactly:
+**DO NOT read the entire template.html file.** It is ~2500 lines. Instead, read only what you need:
 
-1. Read `assets/template.html` using the Read tool.
-2. **Copy the entire file content** — this is your starting point.
-3. **Only modify** these specific parts:
-   - `<title>` tag text
-   - `.welcome-title` heading text (inner `<span>` keeps color)
-   - `.welcome-sub` subtitle paragraph text
-   - `const quizData = { ... }` JavaScript array (replace entirely with parsed data)
-   - `quizData.quiz_title` (used on welcome screen)
-   - `quizData.total_questions` (must match `quizData.questions.length`)
-4. **Do NOT change any CSS, HTML structure, class names, IDs, or JavaScript logic.**
-   - Keep `--clr-*` CSS variables exactly as they are
-   - Keep `.screen`, `.question-card`, `.answer-area`, `.feedback-banner` classes
-   - Keep `#screen-welcome`, `#screen-quiz`, `#screen-results`, `#screen-loading` IDs
-   - Keep `#progress-bar`, `#question-text`, `#answer-area`, `#feedback-banner`, `#btn-next` IDs
-   - Keep all Tabler Icons imports (`<link rel="stylesheet" href="...tabler-icons...">`)
-   - Keep all class names for each question type: `.answer-grid`, `.answer-card`, `.ms-card`, `.tf-btn`, `.fib-container`, `.match-container`, `.seq-container`, `.num-container`, `.fc-card`
-5. Save the result to the current working directory.
+### Step 1: Parse input data → determine which question types are used
+Read the input file, parse all questions, and extract the set of `type` values used (e.g. `mcq`, `matching`, `numeric`).
+
+### Step 2: Read template skeleton (lines 1–60)
+Read `assets/template.html` from line 1 to 60 to get `<head>`, CSS variables, body setup, and the screen structure (`.screen` classes, welcome/quiz/results/loading screens, progress bar, feedback banner, buttons, modals).
+
+### Step 3: Read only the CSS for the question types you need
+The template has CSS sections for each type. Read only the needed ranges:
+
+| Type              | CSS lines |
+|-------------------|-----------|
+| MCQ               | 530–545   |
+| Multi-Select      | 545–560   |
+| True/False        | 560–575   |
+| Fill-in-the-Blank | 575–620   |
+| Matching          | 620–670   |
+| Sequencing        | 670–710   |
+| Numeric           | 710–740   |
+| Flash Card        | 740–770   |
+| Results & Confetti| 770–820   |
+| Common/General    | 820–880   |
+
+Read each range only if that type appears in your data. Always read Results & Confetti and Common/General sections.
+
+### Step 4: Read only the JS functions for the question types you need
+The template has render and submit functions for each type:
+
+| Function(s)              | Lines       | Used by |
+|--------------------------|-------------|---------|
+| `renderMCQ`, `submitMCQ` | ~1420–1500  | mcq     |
+| `renderFlashcard`, `submitFlashcard` | ~1500–1610  | flashcard |
+| `renderMultiSelect`, `submitMultiSelect` | ~1610–1680  | multi-select |
+| `renderTF`, `submitTF`   | ~1680–1760  | true-false |
+| `renderFillBlank`, `submitFillBlank` | ~1760–1910  | fill-blank |
+| `renderMatching`, `selectMatch`, `checkMatchingComplete` | ~1910–2050  | matching |
+| `renderSequencing`, `submitSequencing` | ~2050–2170  | sequencing |
+| `renderNumeric`, `submitNumeric` | ~2170–2250  | numeric |
+| `handleAnswer`           | ~2260–2340  | always needed |
+| `nextQuestion`           | ~2340–2370  | always needed |
+| `showResults`            | ~2370–2400  | always needed |
+| `launchConfetti`         | ~2400–2440  | always needed |
+
+Read only the render/submit functions for the types in your data. Always read `handleAnswer`, `nextQuestion`, `showResults`, `launchConfetti`.
+
+### Step 5: Assemble the final HTML
+- Start with the skeleton (Step 2)
+- Append the CSS sections for your types (Step 3)
+- Append the common CSS (media queries, scrollbar, confetti canvas)
+- Append the HTML body (the static screens, modals, buttons)
+- Append the JS: global vars, helper functions, question data, and the specific render/submit functions for your types (Step 4)
+- Replace placeholder data with your parsed quiz data
+
+### Editing Guidelines
+- **Do NOT change** CSS class names, HTML structure, IDs, or JS logic
+- Keep `--clr-*` CSS variables exactly as they are
+- Keep all Tabler Icons imports
+- Only modify: `<title>`, `.welcome-title`, `.welcome-sub`, `const quizData = { ... }`
+- Save to current working directory as `<input-filename-without-ext>.html`
 
 ## Data Schema (quizData Object)
 
@@ -84,6 +125,8 @@ const quizData = {
 | `audioquestao` | string | Optional base64 audio for question replay (omit if none) |
 | `points` | number | XP earned when answered correctly (default 10) |
 | `explanation` | string | Feedback text shown after answering |
+
+**⚠️ CRITICAL: Do NOT add or modify `instructions` or `instructions_audio` fields.** These are pre-defined per question type in the template and must remain untouched. Omit them entirely from generated quiz data — the template handles default instructions via the Instructions button.
 
 ### MCQ (`type: "mcq"`) & Multi-Select (`type: "multi-select"`)
 
