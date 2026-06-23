@@ -413,6 +413,45 @@ Extract text, parse as Markdown-like structure. If ambiguous, ask user.
 - File name: `<input-filename-without-ext>.html`.
 - Fully standalone: all CSS/JS inline, only external deps are Google Fonts `<link>` and Tabler Icons `<link>`.
 
+## Quality Standards Reference
+
+Before generating the quiz, read `references/Quality Standards - Quiz Source.md` and apply these mandatory rules:
+
+### Spelling & Language (Section 4)
+- Use **pre-1990 Mozambican Portuguese** spelling (e.g. "correcto", "acção", "óptimo", "adopção")
+- No Brazilian Portuguese, no post-1990 European Portuguese
+- Consistent terminology, tone and register across all questions and feedback
+
+### Answer Options (Section 6)
+- **At least 4 answer options** per MCQ/multi-select question to reduce guessing
+- True/False questions are exempt (they only have 2 options)
+
+### Assessment Levels (Section 4)
+- Questions must span **Recall, Understanding, and Application** levels
+- Do NOT use only basic recall questions
+
+### Answer Verdict & Explanations (Section 4)
+- Each answer must show **correct/incorrect** immediately, both as **written text and spoken narration**
+- Provide a written + spoken explanation after each question (not just correct/incorrect)
+
+### Audio Requirements (Section 5)
+- All audio must be **pre-recorded**, embedded as base64 — **do NOT use Web Speech API or device-generated speech**
+- Instruction screens must include both written text and audio narration with a play button
+
+### Offline & Deliverable (Section 5)
+- Quiz must work fully offline — all assets embedded as base64
+- Single self-contained HTML file with descriptive name (not `index.html`)
+
+### Navigation & Accessibility (Section 5)
+- Clear Next/Back buttons and instructions on every screen
+- Large clickable areas and buttons. High contrast text.
+- Alt text on all images and icons
+
+### Curriculum Alignment (Section 4)
+- Each question should link to a specific learning outcome
+- Questions must not contradict each other
+- No time-based penalties — learners answer at their own pace
+
 ## Verification Checklist
 
 After generating, verify the output contains ALL of these (search for them):
